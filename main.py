@@ -8,7 +8,7 @@ import argparse
 import pandas as pd
 from loguru import logger
 
-logger.add("file_{time}.log")
+logger.add("{time}.log")
 
 parser = argparse.ArgumentParser("Hard Negative Miner")
 parser.add_argument(
