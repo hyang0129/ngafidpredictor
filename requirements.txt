@@ -3,3 +3,4 @@ tqdm
 pandas
 numpy
 scikit-learn
+loguru

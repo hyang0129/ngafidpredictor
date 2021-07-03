@@ -6,6 +6,9 @@ from ngafid.model.autoencoder import vae_conv
 from ngafid.model.predictor import get_pred_model
 import argparse
 import pandas as pd
+from loguru import logger
+
+logger.add("file_{time}.log")
 
 parser = argparse.ArgumentParser("Hard Negative Miner")
 parser.add_argument(
@@ -18,11 +21,17 @@ parser.add_argument(
 if __name__ == "__main__":
     args = parser.parse_args()
 
+    logger.info('Looking for csvs in %s' % args.inputdirectory)
+
     directory = args.inputdirectory + '/*'
+
+    filenames = glob.glob(directory)
+
+    logger.info('Found %i csvs' % len(filenames))
 
     pp = PreProcessor('scaler.pkl')
 
-    filenames = glob.glob(directory)
+    logger.info('Loaded Preprocessor')
 
     df, sources = pp.prepare_data_for_prediction(filenames)
     df = df.dropna()
@@ -30,17 +39,23 @@ if __name__ == "__main__":
     ds = get_dataset(df, has_y=False, relevant_columns=pp.input_columns)
     ds = prepare_for_training(ds, shuffle = False, repeat = False, predict = True, batch_size = 1)
 
+    logger.info('Prepared Dataset for Prediction')
+
     strategy = tf.distribute.get_strategy()
     vae = vae_conv(shape = (8192, 18), strategy = strategy, verbose = False)
     pred_model = get_pred_model(vae, strategy, verbose = False)
 
     pred_model.load_weights('predictor_model.h5')
 
+    logger.info('Loaded Model')
+
     result = pred_model.predict(ds, verbose = True)
-    result
+
+    logger.info('Predicted on All Data')
 
 
     res_df = pd.DataFrame( {'source': pd.Series(sources), 'prediction' : pd.Series(result[:, 0])})
     res_df['target'] = res_df.source.apply( lambda x : 1 if 'before' in x else 0 )
     res_df.to_csv('results.csv')
-    res_df
+
+    logger.info('Results saved to results.csv')
