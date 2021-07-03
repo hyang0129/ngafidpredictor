@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
     directory = args.inputdirectory + '/*'
 
-    pp = PreProcessor('/content/ngafidpredictor/scaler.pkl')
+    pp = PreProcessor('scaler.pkl')
 
     filenames = glob.glob(directory)
 
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     vae = vae_conv(shape = (8192, 18), strategy = strategy, verbose = False)
     pred_model = get_pred_model(vae, strategy, verbose = False)
 
-    pred_model.load_weights('/content/ngafidpredictor/predictor_model.h5')
+    pred_model.load_weights('predictor_model.h5')
 
     result = pred_model.predict(ds, verbose = True)
     result
