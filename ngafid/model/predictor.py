@@ -2,7 +2,7 @@ import tensorflow as tf
 tfk = tf.keras
 tfkl = tf.keras.layers
 
-def get_pred_model(vae, strategy):
+def get_pred_model(vae, strategy, verbose = True):
     with strategy.scope():
         encoded_size = 256
         predictor = tfk.Sequential([
@@ -24,6 +24,6 @@ def get_pred_model(vae, strategy):
             metrics=['accuracy', tf.keras.metrics.AUC()],
             loss=[tfk.losses.BinaryCrossentropy(reduction=tf.keras.losses.Reduction.SUM_OVER_BATCH_SIZE)])
 
-        pred_model.summary()
+        if verbose: pred_model.summary()
 
     return pred_model

@@ -3,7 +3,7 @@ tfk = tf.keras
 tfkl = tf.keras.layers
 
 
-def vae_conv(shape, strategy):
+def vae_conv(shape, strategy, verbose = True):
     SHAPE = shape
     with strategy.scope():
         encoded_size = 256
@@ -52,6 +52,6 @@ def vae_conv(shape, strategy):
 
         )
 
-    vae.summary()
+    if verbose: vae.summary()
 
     return vae

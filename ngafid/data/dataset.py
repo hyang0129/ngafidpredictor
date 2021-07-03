@@ -5,7 +5,7 @@ import tensorflow as tf
 from tqdm.autonotebook import tqdm
 
 
-def get_dataset(df, has_y = True):
+def get_dataset(df, has_y = True, relevant_columns = None):
     # converts a dataframe into a dataset
 
     ids = df.id.unique()
@@ -14,7 +14,7 @@ def get_dataset(df, has_y = True):
     afters = []
 
     for id in tqdm(ids):
-        sensor_data = df[df.id == id].iloc[-8192:, 2:20].values
+        sensor_data = df[df.id == id].iloc[-8192:].loc[:, relevant_columns].values
 
         sensor_data = np.pad(sensor_data, [[0, 8192- len(sensor_data)], [0,0]])
 
@@ -34,7 +34,8 @@ def get_dataset(df, has_y = True):
 
     return ds
 
-def prepare_for_training(ds, shuffle = False, repeat = False, predict = True, batch_size = 16):
+
+def prepare_for_training(ds, shuffle = False, repeat = False, predict = True, batch_size = 1):
     # final transforms before dataset is usable
 
     if not predict:

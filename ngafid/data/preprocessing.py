@@ -28,8 +28,10 @@ class PreProcessor():
         df, sources = extract_engine_data_all(filenames)
 
         df = self.scale_dataframe(df)
+        df = df.dropna()
+        df['source'] = df.id.apply(lambda x: sources[x])
 
-        return df
+        return df, sources
 
 def extract_engine_data(filename, id=None):
     df = pd.read_csv(filename, skiprows=2, low_memory=False)
