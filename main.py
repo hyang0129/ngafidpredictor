@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     logger.info('Looking for csvs in %s' % args.inputdirectory)
 
-    directory = args.inputdirectory + '/*.csv'
+    directory = args.inputdirectory + '/*C172*.csv'
 
     filenames = glob.glob(directory)
 
