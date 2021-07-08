@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
 
     res_df = pd.DataFrame( {'source': pd.Series(sources), 'prediction' : pd.Series(result[:, 0])})
-    res_df['target'] = res_df.source.apply( lambda x : 1 if 'before' in x else 0 )
+    # res_df['target'] = res_df.source.apply( lambda x : 1 if 'before' in x else 0 )
     res_df.to_csv('results.csv')
 
     logger.info('Results saved to results.csv')

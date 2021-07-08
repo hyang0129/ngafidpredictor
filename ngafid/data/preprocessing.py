@@ -71,6 +71,5 @@ def extract_engine_data_all(filenames):
     df.columns = [col.strip() for col in df.columns]
 
 
-
     return df, sources
 
