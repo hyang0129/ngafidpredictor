@@ -56,8 +56,9 @@ if __name__ == "__main__":
 
     logger.info('Predicted on All Data')
 
+    res_df = pd.DataFrame({'source': list(sources.values()), 'prediction': list(result[:, 0])})
 
-    res_df = pd.DataFrame( {'source': pd.Series(sources), 'prediction' : pd.Series(result[:, 0])})
+    # res_df = pd.DataFrame( {'source': pd.Series(listsources.values()), 'prediction' : pd.Series(result[:, 0])})
     # res_df['target'] = res_df.source.apply( lambda x : 1 if 'before' in x else 0 )
     res_df.to_csv('results.csv')
 
