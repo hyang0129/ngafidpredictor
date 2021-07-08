@@ -26,6 +26,7 @@ def get_dataset(df, has_y = True, relevant_columns = None):
         sensor_datas.append(sensor_data)
         afters.append(after)
 
+    print(len(sensor_datas))
 
     sensor_datas = np.stack(sensor_datas)
     afters = np.stack(afters)
