@@ -53,16 +53,24 @@ def extract_engine_data_all(filenames):
     # the sources dataframe references the filename, to avoid having the main dataframe
     # repeat the filename each line
 
+    min_seconds = 1800
     results = []
     sources = {}
     for id, f in tqdm(enumerate(filenames), total=len(filenames)):
         try:
-            results.append(extract_engine_data(f, id))
-            sources[id] = f
+            data = extract_engine_data(f, id)
+            if len(data) > min_seconds:
+                results.append(data)
+                sources[id] = f
+            else:
+                print('File was shorter than %i seconds, see %s' % (i, f))
         except:
             print('File could not be processed, see %s' % f)
 
     df = pd.concat(results)
     df.columns = [col.strip() for col in df.columns]
+
+
+
     return df, sources
 
