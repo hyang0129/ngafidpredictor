@@ -63,7 +63,7 @@ def extract_engine_data_all(filenames):
                 results.append(data)
                 sources[id] = f
             else:
-                print('File was shorter than %i seconds, see %s' % (i, f))
+                print('File was shorter than %i seconds, see %s' % (min_seconds, f))
         except:
             print('File could not be processed, see %s' % f)
 
