@@ -56,8 +56,11 @@ def extract_engine_data_all(filenames):
     results = []
     sources = {}
     for id, f in tqdm(enumerate(filenames), total=len(filenames)):
-        results.append(extract_engine_data(f, id))
-        sources[id] = f
+        try:
+            results.append(extract_engine_data(f, id))
+            sources[id] = f
+        except:
+            print('File could not be processed, see %s' % f)
 
     df = pd.concat(results)
     df.columns = [col.strip() for col in df.columns]
