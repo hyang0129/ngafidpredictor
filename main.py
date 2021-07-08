@@ -34,7 +34,10 @@ if __name__ == "__main__":
     logger.info('Loaded Preprocessor')
 
     df, sources = pp.prepare_data_for_prediction(filenames)
+
+    print(len(df))
     df = df.dropna()
+    print(len(df))
 
     ds = get_dataset(df, has_y=False, relevant_columns=pp.input_columns, sources=sources)
     ds = prepare_for_training(ds, shuffle = False, repeat = False, predict = True, batch_size = 1)
