@@ -36,7 +36,7 @@ if __name__ == "__main__":
     df, sources = pp.prepare_data_for_prediction(filenames)
     df = df.dropna()
 
-    ds = get_dataset(df, has_y=False, relevant_columns=pp.input_columns)
+    ds = get_dataset(df, has_y=False, relevant_columns=pp.input_columns, sources=sources)
     ds = prepare_for_training(ds, shuffle = False, repeat = False, predict = True, batch_size = 1)
 
     logger.info('Prepared Dataset for Prediction')
